@@ -1,1 +1,1 @@
-export { Pokemons } from './Pokemons';
+export { PokemonsList as Pokemons } from './PokemonsList';
