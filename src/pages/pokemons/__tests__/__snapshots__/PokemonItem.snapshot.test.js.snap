@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`PokemonItem It matches the PokemonItem snapshot 1`] = `
+exports[`PokemonItem matches the PokemonItem snapshot 1`] = `
 Object {
   "asFragment": [Function],
   "baseElement": <body>

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from '../../redux/react-redux-hooks';
 import { PokemonItem } from './PokemonItem';
 import * as actions from '../../redux/modules/pokemons/pokemonModule';
 
@@ -14,10 +14,9 @@ export function PokemonsList(){
 
     // Handlers
     const onClick = () => dispatch(actions.fetchPokemons(offset));
-
     return (
       <div>
-         {pokemons.map(pokemon =>
+         {pokemons && pokemons.map(pokemon =>
             <PokemonItem 
               key={pokemon.name}
               pokemon={pokemon} 

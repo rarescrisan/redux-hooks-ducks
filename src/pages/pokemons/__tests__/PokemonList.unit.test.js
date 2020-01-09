@@ -1,38 +1,61 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
-import { OFFSET } from '../../../redux/modules/pokemons/constants';
-import { PokemonsList } from '../PokemonsList';
 import { Provider } from 'react-redux';
-import createStore from 'redux';
+import configureStore from "redux-mock-store";
+// import { configure, shallow } from "enzyme";
+// import Adapter from "enzyme-adapter-react-16";
+import thunk from "redux-thunk";
 
-const mockStore = createStore({
-    pokemons: {
-        pokemons: []
-    }
-});
+import { render } from '@testing-library/react';
+import { OFFSET } from '../../../redux/modules/pokemons/constants';
+import * as ReactReduxHooks from "../../../redux/react-redux-hooks";
+import { initialState, ActionType } from '../../../redux/modules/pokemons/pokemonModule';
+import { PokemonsList } from '../PokemonsList';
+
+// configure({ adapter: new Adapter() });
+
 describe("PokemonList", () => {
+    let wrapper;
+    let useEffect;
+    let mockStore;
+
+    const mockUseEffect = () => {
+        useEffect.mockImplementationOnce(f => f());
+    };
+
+    beforeEach(() => {
+        /* mocking store */
+        mockStore = configureStore([thunk])({
+            pokemons: {
+                ...initialState
+            }
+        });
+
+        /* mocking useEffect */
+        useEffect = jest.spyOn(React, "useEffect");
+        mockUseEffect(); // 2 times
+        mockUseEffect(); //
+
+        /* mocking useSelector on our mock store */
+        jest
+            .spyOn(ReactReduxHooks, "useSelector")
+            .mockImplementation(state => mockStore.getState().pokemons);
+        /* mocking useDispatch on our mock store  */
+        jest
+            .spyOn(ReactReduxHooks, "useDispatch")
+            .mockImplementation(() => mockStore.dispatch);
+
+        const renderTree = (
+            <Provider store={mockStore}>
+                <PokemonsList/>
+            </Provider>
+        )
+        wrapper = render(renderTree);
+    })
+
     it(`renders ${OFFSET} pokemon on component mount`, () => {
-        const renderTree = (
-            <Provider store={mockStore}>
-                <PokemonsList/>
-            </Provider>
-        )
-        const _Component = render(renderTree);
-        const result = _Component.getAllByTestId('pokemon');
-        expect(result.length).toBe(OFFSET);
-    });
-
-    it(`renders an additional ${OFFSET} pokemons when the 'fetch more' button is clicked`, () => {
-        const renderTree = (
-            <Provider store={mockStore}>
-                <PokemonsList/>
-            </Provider>
-        )
-        const _Component = render(renderTree);
-
-        fireEvent.click(_Component.getByText(/Fetch More/i));
-
-        const result = _Component.getAllByTestId('pokemon');
-        expect(result.length).toBe(OFFSET * 2);
+        const actions = mockStore.getActions();
+        expect(actions).toEqual([
+            { type: ActionType.GET_POKEMONS }
+        ]);
     });
 });

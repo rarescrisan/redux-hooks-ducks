@@ -20,7 +20,7 @@ export const fetchPokemons = (offset) => (dispatch) => {
   .then(pokemons => dispatch(receivePokemons(pokemons.results)))
 };
 
-const initialState = {
+export const initialState = {
   pokemons: [],
   offset: OFFSET,
   limit: LIMIT,
