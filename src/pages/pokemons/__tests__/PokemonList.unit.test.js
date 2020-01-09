@@ -54,4 +54,10 @@ describe("PokemonList", () => {
             { type: ActionType.GET_POKEMONS }
         ]);
     });
+
+    it(`renders ${OFFSET} pokemon onClick`, () => {
+        // TODO: finish this test
+        expect(true).toBe(true);
+    });
+    
 });

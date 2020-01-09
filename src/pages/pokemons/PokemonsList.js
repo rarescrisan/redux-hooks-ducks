@@ -14,6 +14,7 @@ export function PokemonsList(){
 
     // Handlers
     const onClick = () => dispatch(actions.fetchPokemons(offset));
+    
     return (
       <div>
          {pokemons && pokemons.map(pokemon =>
