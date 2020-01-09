@@ -1,8 +1,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import configureStore from "redux-mock-store";
-// import { configure, shallow } from "enzyme";
-// import Adapter from "enzyme-adapter-react-16";
 import thunk from "redux-thunk";
 
 import { render } from '@testing-library/react';
@@ -10,8 +8,6 @@ import { OFFSET } from '../../../redux/modules/pokemons/constants';
 import * as ReactReduxHooks from "../../../redux/react-redux-hooks";
 import { initialState, ActionType } from '../../../redux/modules/pokemons/pokemonModule';
 import { PokemonsList } from '../PokemonsList';
-
-// configure({ adapter: new Adapter() });
 
 describe("PokemonList", () => {
     let wrapper;
